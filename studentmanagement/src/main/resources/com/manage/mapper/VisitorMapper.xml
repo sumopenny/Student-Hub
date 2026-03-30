@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.manage.mapper.VisitorMapper">
+    
+    <select id="selectVisitor" resultType="com.manage.pojo.Visitor">
+        SELECT id, count FROM visitor LIMIT 1
+    </select>
+    
+    <update id="updateVisitorCount">
+        UPDATE visitor SET count = #{count} WHERE id = 1
+    </update>
+    
+    <insert id="insertVisitor">
+        INSERT INTO visitor (id, count) VALUES (1, #{count})
+    </insert>
+    
+</mapper>
