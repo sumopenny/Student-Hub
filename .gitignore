@@ -1,28 +1,30 @@
-# ==================== 忽略配置文件（密码、账号） ====================
+# 忽略配置文件（账号、密码、敏感信息）
 *.yml
 *.yaml
 *.properties
 *.env
-.env.local
+.env
 config.js
 ftp-config.properties
 API接口文档.md
 
-# ==================== 后端忽略 ====================
-target/
-*.class
-*.log
-
-# ==================== 前端忽略（只忽略 node_modules 和 dist） ====================
+# 前端依赖 & 打包文件
 node_modules/
 dist/
 dist-ssr/
 *.local
 
-# ==================== IDE 与系统文件 ====================
+# 后端编译文件
+target/
+*.class
+*.log
+
+# IDE 配置文件
 .idea/
 *.iml
 *.iws
 *.ipr
+
+# 系统垃圾文件
 .DS_Store
 Thumbs.db
