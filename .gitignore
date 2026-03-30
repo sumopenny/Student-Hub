@@ -1,0 +1,28 @@
+# ==================== 忽略配置文件（密码、账号） ====================
+*.yml
+*.yaml
+*.properties
+*.env
+.env.local
+config.js
+ftp-config.properties
+API接口文档.md
+
+# ==================== 后端忽略 ====================
+target/
+*.class
+*.log
+
+# ==================== 前端忽略（只忽略 node_modules 和 dist） ====================
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# ==================== IDE 与系统文件 ====================
+.idea/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+Thumbs.db
