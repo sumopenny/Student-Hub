@@ -12,7 +12,7 @@ import java.util.List;
  * StudentMapper 测试类
  */
 @DisplayName("学生 Mapper 测试类")
-@SpringBootTest
+//@SpringBootTest
 public class StudentMapperTest {
 
     @Autowired

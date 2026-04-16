@@ -39,6 +39,13 @@ public class PostController {
             Map<String, Object> claims = JwtUtils.parseJWT(token.replace("Bearer ", ""));
             Integer userId = (Integer) claims.get("id");
             
+            if (!postService.canPost(userId)) {
+                long remainingTime = postService.getRemainingTime(userId);
+                Map<String, Object> resultData = new HashMap<>();
+                resultData.put("remainingTime", remainingTime);
+                return Result.error("发帖过于频繁，请" + remainingTime + "秒后再试");
+            }
+            
             Student student = studentService.get(userId);
             String userName = student != null ? student.getName() : "匿名用户";
             

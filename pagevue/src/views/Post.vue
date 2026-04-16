@@ -2,7 +2,11 @@
   <div class="post-container">
     <div class="post-header">
       <h2 class="post-title">帖子广场</h2>
-      <el-button type="primary" class="create-btn" @click="showCreateDialog = true">
+      <el-button 
+        type="primary" 
+        class="create-btn" 
+        @click="showCreateDialog = true"
+      >
         <el-icon><Edit /></el-icon>
         我要发帖
       </el-button>
@@ -179,14 +183,16 @@
       </el-form>
       <template #footer>
         <el-button @click="showCreateDialog = false">取消</el-button>
-        <el-button type="primary" @click="submitPost" :loading="submitting">发帖</el-button>
+        <el-button type="primary" @click="submitPost" :loading="submitting" :disabled="!canPost">
+          {{ canPost ? '发帖' : `等待${countdown}秒` }}
+        </el-button>
       </template>
     </el-dialog>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Edit, StarFilled, ChatDotRound, ChatLineRound, Plus } from '@element-plus/icons-vue'
 import { 
@@ -205,6 +211,9 @@ const postFormRef = ref(null)
 const submitting = ref(false)
 const fileList = ref([])
 const uploadedImages = ref([])
+const canPost = ref(true)
+const countdown = ref(0)
+let countdownTimer = null
 
 const postForm = ref({
   title: '',
@@ -381,6 +390,10 @@ const submitPost = async () => {
   if (!postFormRef.value) return
   await postFormRef.value.validate(async (valid) => {
     if (!valid) return
+    if (!canPost.value) {
+      ElMessage.warning(`发帖过于频繁，请${countdown.value}秒后再试`)
+      return
+    }
     
     submitting.value = true
     
@@ -412,7 +425,14 @@ const submitPost = async () => {
         showCreateDialog.value = false
         resetForm()
         loadPosts()
+        startCountdown(5)
       } else {
+        if (res.msg && res.msg.includes('频繁')) {
+          const match = res.msg.match(/请(\d+)秒/)
+          if (match) {
+            startCountdown(parseInt(match[1]))
+          }
+        }
         ElMessage.error(res.msg || '发帖失败')
       }
     } catch (e) {
@@ -423,8 +443,30 @@ const submitPost = async () => {
   })
 }
 
+const startCountdown = (seconds) => {
+  canPost.value = false
+  countdown.value = seconds
+  if (countdownTimer) {
+    clearInterval(countdownTimer)
+  }
+  countdownTimer = setInterval(() => {
+    countdown.value--
+    if (countdown.value <= 0) {
+      canPost.value = true
+      clearInterval(countdownTimer)
+      countdownTimer = null
+    }
+  }, 1000)
+}
+
 onMounted(() => {
   loadPosts()
+})
+
+onUnmounted(() => {
+  if (countdownTimer) {
+    clearInterval(countdownTimer)
+  }
 })
 </script>
 

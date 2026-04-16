@@ -54,4 +54,7 @@ public interface PostMapper {
 
     @Delete("DELETE FROM post WHERE id = #{id}")
     int deleteById(Integer id);
+
+    @Select("SELECT create_time FROM post WHERE user_id = #{userId} ORDER BY create_time DESC LIMIT 1")
+    java.time.LocalDateTime selectLastPostTimeByUserId(Integer userId);
 }

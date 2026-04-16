@@ -70,7 +70,21 @@ import { Clock, Plus, Edit, Tools } from '@element-plus/icons-vue'
 
 const logs = [
   {
-    id: 1,
+    id: 4,
+    version: 'v1.0.3',
+    date: '2026-03-30',
+    newFeatures: [
+      '新增访客记录功能，记录系统访问日志',
+      '新增论坛发帖与评论功能，支持用户交流互动',
+      '限制用户发帖时间间隔，防止频繁发帖'
+    ],
+    improvements: [
+      '检查并修复头像上传安全漏洞'
+    ],
+    fixes: []
+  },
+  {
+    id: 3,
     version: 'v1.0.2',
     date: '2026-03-27',
     newFeatures: [
@@ -100,7 +114,7 @@ const logs = [
     fixes: []
   },
   {
-    id: 3,
+    id: 1,
     version: 'v1.0.0',
     date: '2026-01-15',
     newFeatures: [
